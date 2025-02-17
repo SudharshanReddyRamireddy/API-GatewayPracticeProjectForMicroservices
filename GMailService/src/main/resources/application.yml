@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: GMailService
+
+  mail:
+    host: smtp.gmail.com
+    username: isudharshanreddyramireddy@gmail.com
+    password: wnic sskx lupu nxcu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    port: 587
+
+server:
+  port: 8070
+  
+  
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true  # ✅ Register using IP instead of hostname
+    ip-address: 127.0.0.1    # ✅ Explicitly set IP to localhost
+    hostname: localhost      # ✅ Set hostname to localhost
+    instance-id: ${spring.application.name}:${server.port}  # ✅ Prevents caching old registrations
+  
