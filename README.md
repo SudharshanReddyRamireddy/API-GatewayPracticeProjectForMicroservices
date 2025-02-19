@@ -1,1 +1,11 @@
-# API-GatewayPracticeProjectForMicroservices
+# MICROSERVICES PRACTICE PROJECT
+    Developed microservices project with API-GATE and SPRING CLOUD (EUREKA)
+
+    List Of MicroServices:
+        -> API-GATEWAY MICROSERVICE
+        -> USER MICROSERVICES
+        -> ORDER MICROSERVICES
+        -> CART&WISHLIST MICROSERVICES
+        -> GMAILSERVICES MICROSERVICES
+        -> ITEMS MICROSERVICE
+        -> EUREKA SERVER 
