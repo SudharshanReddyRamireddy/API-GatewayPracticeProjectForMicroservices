@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import SpringPractice.OrderFeignClient.FeignClientAPIs.ItemMicroservice;
 import SpringPractice.OrderFeignClient.models.Order;
 import SpringPractice.OrderFeignClient.services.OrderService;
 
@@ -24,16 +25,26 @@ public class OrderController {
 	private OrderService orderService;
 	
 	
+	@Autowired
+	private ItemMicroservice feignClientItemServices;
+	
+	
 	//adding new Order
 	@PostMapping("/order")
 	public ResponseEntity<Order> saveOrder(@RequestBody Order order) throws BadRequestException{
 		
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(orderService.saveOrder(order));
+			Boolean isItemExist = feignClientItemServices.isItemExist(order.getItemId());
+			if(isItemExist) {
+				return ResponseEntity.status(HttpStatus.OK).body(orderService.saveOrder(order));
+			}else {
+				throw new BadRequestException("ERROR : INVALID ITEM : ITEM NOT FOUND ON GIVEN ITEM ID" );
+			}
 		} catch (Exception e) {
 			throw new BadRequestException("ERROR : " + e.getMessage());
 		}
 	}
+	
 	
 	
 	@GetMapping("/OrdersByUserId/{userId}")
@@ -44,6 +55,10 @@ public class OrderController {
 		} catch (Exception e) {
 			throw new BadRequestException("ERROR : ORDER DETAILS NOT FETCHED.");
 		}
+		
 	}
 
+	
+	
+	
 }

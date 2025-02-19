@@ -8,13 +8,17 @@ spring:
     allow-bean-definition-overriding: true
     web-application-type: servlet
   datasource:
-    url: ""  # Disable database configuration
+    url: ""  # No database needed for Eureka
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
 eureka:
-  instance:
-    hostname: localhost
   client:
-    register-with-eureka: false  # Eureka server doesn't register itself
-    fetch-registry: false        # Doesn't fetch other services
+    register-with-eureka: false  # ❌ Eureka Server itself does not register
+    fetch-registry: false  # ❌ Eureka Server does not fetch registry
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # ✅ Ensure Eureka URL is localhost
+  server:
+    enable-self-preservation: false  # ❌ Disable self-preservation for testing (optional)
+  instance:
+    hostname: localhost  # ✅ Set Eureka Server hostname to localhost

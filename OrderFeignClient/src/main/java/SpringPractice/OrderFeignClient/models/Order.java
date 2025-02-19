@@ -14,11 +14,16 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
+    
+    private Long itemId;
+    
     private Long userId;
     private LocalDate dateOfOrder;
     private Double totalCost;
-    private Long totalItems; // Fixed spelling issue
+    private Long totalItems;
+    private String TransationId;
+    
+    
 	public Long getId() {
 		return id;
 	}
@@ -49,6 +54,17 @@ public class Order {
 	public void setTotalItems(Long totalItems) {
 		this.totalItems = totalItems;
 	}
-
+	public Long getItemId() {
+		return itemId;
+	}
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
+	}
+	public String getTransationId() {
+		return TransationId;
+	}
+	public void setTransationId(String transationId) {
+		TransationId = transationId;
+	}
    
 }

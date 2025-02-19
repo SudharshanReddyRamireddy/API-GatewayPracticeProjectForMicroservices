@@ -23,7 +23,7 @@ public class ItemController {
         this.itemService = itemService;
     }
     
-    
+
     
     //method to check presence of item by item id
     @GetMapping("/isItemExist/{itemId}")
@@ -33,8 +33,7 @@ public class ItemController {
     		return ResponseEntity.status(HttpStatus.OK).body(itemService.isItemExist(itemId));
 		} catch (Exception e) {
 			throw new BadRequestException("ERROR : " + e.getMessage());
-		}
-    	
+		}	
     }
     
     
@@ -42,7 +41,7 @@ public class ItemController {
     
 
     // Upload item with image
-    @PostMapping("/upload")
+    @PostMapping("/item")
     public ResponseEntity<String> uploadItem(
             @RequestParam("name") String name,
             @RequestParam("type") String type,
@@ -70,8 +69,7 @@ public class ItemController {
     
     
     
-    
-
+   
     // Get a single item by ID
     @GetMapping("/{id}")
     public ResponseEntity<ItemResponse> getItemById(@PathVariable("id") Long id) {
@@ -80,6 +78,15 @@ public class ItemController {
     
     
     
-    
+    @GetMapping("/itemPrice/{itemId}")
+    public ResponseEntity<Double> getItemPrice(@PathVariable("itemId") Long itemId) throws BadRequestException{
+    	
+    	try {
+			return ResponseEntity.status(HttpStatus.OK).body(itemService.getItemPrice(itemId));
+		} catch (Exception e) {
+			throw new BadRequestException("ERROR : " + e.getMessage());
+		}
+    	
+    }
     
 }

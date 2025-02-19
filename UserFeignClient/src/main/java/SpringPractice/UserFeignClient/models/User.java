@@ -2,25 +2,38 @@ package SpringPractice.UserFeignClient.models;
 
 import java.time.LocalDate;
 
+import SpringPractice.UserFeignClient.Auditable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name = "User_Tbl")
-public class User {
+@Table(name = "Users")
+public class User extends Auditable{
 	
 	@Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank(message = "NAME CANNOT BE EMPLY")
 	private String name;
 	
+	
+	@NotBlank(message = "Mobile number cannot be empty")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Mobile number must be 10 digits")
 	private String mobileNo;
 	
+	
+	@NotBlank(message = "EMAIL CANNOT BE EMPTY")
+	@Email(message = "INVALID MAIL ID")
 	private String emailId;
+	
+	
 	
 	private LocalDate dateOfBirth;
 
@@ -63,7 +76,5 @@ public class User {
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	
-	
 
 }

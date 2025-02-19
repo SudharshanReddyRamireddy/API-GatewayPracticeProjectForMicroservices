@@ -1,28 +1,30 @@
-
 spring:
   application:
-    name: ORDER-SERVICE  # Name of the Spring Boot application
+    name: ORDER-SERVICE  
   datasource:
-    url: jdbc:postgresql://localhost:5432/FeignClient_DB  # PostgreSQL connection URL
-    username: postgres  # PostgreSQL username
-    password: Reddy@2000  # PostgreSQL password
-    driver-class-name: org.postgresql.Driver  # PostgreSQL driver
+    url: jdbc:postgresql://localhost:5432/FeignClient_DB  
+    username: postgres  
+    password: Reddy@2000  
+    driver-class-name: org.postgresql.Driver  
   jpa:
     hibernate:
-      ddl-auto: update  # Automatically creates/updates the schema
-    show-sql: true  # Enables SQL query logging
+      ddl-auto: update  
+    show-sql: true  
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect  # Hibernate dialect for PostgreSQL
+        dialect: org.hibernate.dialect.PostgreSQLDialect  
 
-# Server-specific configurations
 server:
   port: 8091
-    
 
 eureka:
-   client:
-     register-with-eureka: true
-     fetch-registry: true
-     service-url:
-       defaultZone: http://localhost:8761/eureka/
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true  
+    ip-address: 127.0.0.1    
+    hostname: localhost      
+    instance-id: ${spring.application.name}:${server.port}  

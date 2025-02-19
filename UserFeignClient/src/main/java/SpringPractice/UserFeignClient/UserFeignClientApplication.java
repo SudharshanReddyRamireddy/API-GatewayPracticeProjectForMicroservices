@@ -12,4 +12,6 @@ public class UserFeignClientApplication {
 		SpringApplication.run(UserFeignClientApplication.class, args);
 	}
 
+	
+	//main class
 }

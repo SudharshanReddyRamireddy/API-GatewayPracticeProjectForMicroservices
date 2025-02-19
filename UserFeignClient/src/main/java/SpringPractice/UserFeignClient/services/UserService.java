@@ -1,10 +1,18 @@
 package SpringPractice.UserFeignClient.services;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
+import SpringPractice.UserFeignClient.DTOs.MailRequest_DTO;
+import SpringPractice.UserFeignClient.feginClientAPIs.MailServices;
 import SpringPractice.UserFeignClient.models.User;
 import SpringPractice.UserFeignClient.repositories.UserRepositoty;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
@@ -13,9 +21,59 @@ public class UserService {
 	private UserRepositoty userRepository;
 	
 	
+	@Autowired
+	private MailServices mailServices;
+	
+	
+	//check email id is exist or not 
+	public Boolean isMailIdExist(String emailId) {
+		Optional<User> user = userRepository.findByEmailId(emailId);
+		//System.out.println("user: " + user);
+		
+		if(user.isEmpty()) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	
+	// check mobile No exist or not
+	public Boolean isMobileNoExist(String mobileNo) {
+		
+		Optional<User> user = userRepository.findByMobileNo(mobileNo);
+		System.out.println("user :" + user);
+		if(user.isEmpty()) {
+			return false;
+		}else {
+			return true;
+		}
+	
+		
+	}
+	
+	
 	//adding new user
-	public User saveUser(User user) {
-		return userRepository.save(user);
+	@Transactional
+	public User saveUser(User user) throws BadRequestException {
+		try {
+			
+			String subject = "REGISTRATION SUCCESSFULL";
+			
+			String bodyText = "Hi...!"+ "\n" + "Mr/Ms : " + user.getName() + "\n" + "Your Successfully Registred at ___" + "\n" + "Thank You...!";
+			
+			MailRequest_DTO mailDetail = new MailRequest_DTO();
+			mailDetail.setSubject(subject);
+			mailDetail.setMsgBody(bodyText);
+			mailDetail.setRecipient_mail_id(user.getEmailId());
+			mailServices.sentMail(mailDetail);
+			return userRepository.save(user);
+		} catch (Exception e) {
+			throw new BadRequestException(e.getMessage());
+		}
+		
+		
+		
 	}
 	
 	
@@ -30,5 +88,39 @@ public class UserService {
 			return true;
 		}
 	}
+	
+	
+	//fetching all users list
+	public List<User> getAllUserList(){
+		return userRepository.findAll();
+	}
 
+	
+	
+	
+	//fetching user details by user id
+	public User getUserById(Long userId){
+		return userRepository.findById(userId).orElse(null);
+	}
+	
+	
+	
+	
+	// sending mail while order placed successfully
+	public void sendOrderPacedMail(Long userId, Long orderId) throws BadRequestException {
+		
+		User user  =  userRepository.findById(userId).orElseThrow(() -> new BadRequestException("INVALID USER "));
+		
+		String subject = "ORDER PLACED SUCCESSFULLY";
+		String rescepitMailId = user.getEmailId();
+		String bodyTecxt = "Hi...!" + "\n" + "Mr/Ms : " + "Name " + "\n" + "ORDER SUCCESSFULLY PLACED" +"\n" + "Your Order Id : " + orderId;
+		
+		MailRequest_DTO mailDetails = new MailRequest_DTO();
+		
+		mailDetails.setRecipient_mail_id(rescepitMailId);
+		mailDetails.setSubject(subject);
+		mailDetails.setMsgBody(bodyTecxt);
+		
+		mailServices.sentMail(mailDetails);
+	}
 }

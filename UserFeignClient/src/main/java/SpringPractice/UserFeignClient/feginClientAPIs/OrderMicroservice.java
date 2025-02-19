@@ -13,11 +13,11 @@ import SpringPractice.UserFeignClient.DTOs.OrderResponse_DTO;
 @FeignClient(name = "ORDER-SERVICE")
 public interface OrderMicroservice {
 	
-	@PostMapping("/order")
+	@PostMapping("/orders/order")
     OrderResponse_DTO createOrder(@RequestBody OrderResponse_DTO order);
 
     // fetching all orders by user id
-    @GetMapping("/OrdersByUserId/{userId}")
+    @GetMapping("/orders/OrdersByUserId/{userId}")
     List<OrderResponse_DTO> getOrdersByUserId(@PathVariable("userId") Long userId);
     
     

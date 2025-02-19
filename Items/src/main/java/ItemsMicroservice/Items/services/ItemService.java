@@ -4,6 +4,7 @@ import ItemsMicroservice.Items.DTOs.ItemResponse;
 import ItemsMicroservice.Items.models.Item;
 import ItemsMicroservice.Items.repositories.ItemRepository;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -77,4 +78,20 @@ public class ItemService {
                 Base64.getEncoder().encodeToString(item.getImage()) // Convert byte[] to Base64
         );
     }
+    
+    
+    
+    //Method to return item price by item id;
+    public Double getItemPrice(Long itemId) throws BadRequestException {
+    	
+    	Item item = itemRepository.findById(itemId).orElseThrow(() -> new BadRequestException("ITEM NOT FOUND ON ID : " + itemId));
+    	return item.getPrice();
+    }
+    
+    
+    
+    
+    
+    
+    
 }
