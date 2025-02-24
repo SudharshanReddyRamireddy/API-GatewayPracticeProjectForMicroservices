@@ -1,6 +1,6 @@
 package SpringPractice.UserFeignClient.models;
 
-import java.time.LocalDate;
+
 
 import SpringPractice.UserFeignClient.Auditable;
 import jakarta.persistence.Entity;
@@ -33,9 +33,11 @@ public class User extends Auditable{
 	@Email(message = "INVALID MAIL ID")
 	private String emailId;
 	
+	@NotBlank(message = "USERNAME CANNOT BE EMPTY.")
+	private String username;
 	
-	
-	private LocalDate dateOfBirth;
+	@NotBlank(message = "PASSWORD MUST NOT BE EMPTY.")
+	private String password;
 
 	public Long getId() {
 		return id;
@@ -69,12 +71,22 @@ public class User extends Auditable{
 		this.emailId = emailId;
 	}
 
-	public LocalDate getDateOfBirth() {
-		return dateOfBirth;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setDateOfBirth(LocalDate dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+	public void setPassword(String password) {
+		this.password = password;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	
 
 }

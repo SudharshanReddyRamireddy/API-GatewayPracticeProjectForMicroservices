@@ -1,5 +1,4 @@
 package Cart.WishlistMicroservice.Cart.Wishlist.services;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +22,20 @@ public class CartServices {
 	private ItemMicroservice itemMicroservices;
 
 	// * create a cart for user with user id
-	// * add item into cart
-	// * remove item from cart
-	// * cart
+	// * add item into cart with cart id and item id
+	// * remove item by item id from cart
+	// * calculate total cart value
+	// * fetching cart details by cart id
+	// * make cart as empty by cart id
+	
+	
 
 	// create cart for user with user id while that user register
 	public void createCart(Carts cart) {
 		cartRepository.save(cart);
 	}
+	
+	
 
 	// add item id to cart
 	public String addItemToCart(Long cartId, Long itemId) throws BadRequestException {
@@ -51,6 +56,8 @@ public class CartServices {
 		}
 
 	}
+	
+	
 
 	// fetching cart details by cart id
 	public Carts getCartByCartId(Long cartId) throws BadRequestException {
@@ -60,6 +67,9 @@ public class CartServices {
 		calculateCartPrice(cart);
 		return cart;
 	}
+	
+	
+	
 
 	// clear cart
 	public String clearCart(Long cartId) throws BadRequestException {
@@ -70,6 +80,8 @@ public class CartServices {
 		cartRepository.save(cart);
 		return "CART CLEAR";
 	}
+	
+	
 
 	// method to calculate total cart price
 	private void calculateCartPrice(Carts cart) throws BadRequestException {
@@ -86,6 +98,10 @@ public class CartServices {
 		}
 		cart.setCartPrice(toatlPrice);
 	}
+	
+	
+	
+	
 
 	// method to remove item from cart by item id;
 	public String removeItem(Long cartId, Long itemId) throws BadRequestException {

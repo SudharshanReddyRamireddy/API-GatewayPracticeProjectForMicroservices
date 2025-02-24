@@ -28,3 +28,11 @@ eureka:
     ip-address: 127.0.0.1    # ✅ Explicitly set IP to localhost
     hostname: localhost      # ✅ Set hostname to localhost
     instance-id: ${spring.application.name}:${server.port}  # ✅ Prevents caching old registrations
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs  # Default path for OpenAPI docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html

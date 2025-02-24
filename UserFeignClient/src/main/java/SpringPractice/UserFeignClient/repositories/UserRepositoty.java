@@ -13,6 +13,9 @@ import SpringPractice.UserFeignClient.models.User;
 @Repository
 public interface UserRepositoty extends JpaRepository<User, Long>{
 	
+	
+	Optional<User> findByUsername(String username);
+	
 	 // Query to fetch user by mobile number
     @Query("SELECT u FROM User u WHERE u.mobileNo = :mobileNo")
     Optional<User> findByMobileNo(@Param("mobileNo") String mobileNo);

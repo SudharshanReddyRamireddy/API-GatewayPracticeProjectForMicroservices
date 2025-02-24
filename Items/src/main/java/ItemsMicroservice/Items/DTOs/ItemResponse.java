@@ -7,8 +7,14 @@ public class ItemResponse {
     private String brandName;
     private Double price;
     private String base64Image;  // Image as Base64 string
+    
+    
 
-    // Constructor
+    public ItemResponse() {
+		super();
+	}
+
+	// Constructor
     public ItemResponse(Long id, String name, String type, String brandName, Double price, String base64Image) {
         this.id = id;
         this.name = name;

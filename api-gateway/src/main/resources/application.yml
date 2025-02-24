@@ -16,33 +16,65 @@ spring:
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/orders/**
+          filters:
+            - RewritePath=/orders/(?<segment>.*), /$\{segment}
+
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/users/**
-        - id: gmail-services
-          uri: lb://GMailService
+          filters:
+            - RewritePath=/users/(?<segment>.*), /users/$\{segment}
+
+        - id: gmail-service
+          uri: lb://GMAIL-SERVICE
           predicates:
             - Path=/Gmail/**
+          filters:
+            - RewritePath=/Gmail/(?<segment>.*), /$\{segment}
+
         - id: item-services
           uri: lb://ITEMS-SERVICE
           predicates:
             - Path=/items/**
-        - id: Cart-Wishlist
+          filters:
+            - RewritePath=/items/(?<segment>.*), /$\{segment}
+
+        - id: cart-wishlist
           uri: lb://CART-SERVICES
           predicates:
             - Path=/Cart/**
-
+          filters:
+            - RewritePath=/Cart/(?<segment>.*), /$\{segment}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/  # Use localhost Eureka Server
-    register-with-eureka: true  # API Gateway should register itself
-    fetch-registry: true  # Fetch services from Eureka
-
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
   instance:
-    prefer-ip-address: true  # Register using IP instead of hostname
-    ip-address: 127.0.0.1    # Explicitly set IP to localhost
-    hostname: localhost      # Set hostname to localhost
-    instance-id: ${spring.application.name}:${server.port}  # Ensures unique instance ID
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    hostname: localhost
+    instance-id: ${spring.application.name}:${server.port}
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui  # Direct Swagger UI path without webjars
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - name: Order Service
+        url: /orders/v3/api-docs
+      - name: User Service
+        url: /users/v3/api-docs
+      - name: Gmail Service
+        url: /Gmail/v3/api-docs
+      - name: Item Service
+        url: /items/v3/api-docs
+      - name: Cart Service
+        url: /Cart/v3/api-docs

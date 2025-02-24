@@ -6,7 +6,7 @@ import ItemsMicroservice.Items.repositories.ItemRepository;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
@@ -36,14 +36,17 @@ public class ItemService {
     
 
     // Method to save item with image
-    public Item saveItem(String name, String type, String brandName, Double price, MultipartFile file) throws IOException {
+    public Item saveItem(ItemResponse itemDetails) throws IOException {
         Item item = new Item();
-        item.setName(name);
-        item.setType(type);
-        item.setBrandName(brandName);
-        item.setPrice(price);
-        System.out.println(file.getBytes());
-        item.setImage(file.getBytes()); // Convert file to byte[]
+        item.setName(itemDetails.getName());
+        item.setType(itemDetails.getType());
+        item.setBrandName(itemDetails.getBrandName());
+        item.setPrice(itemDetails.getPrice());
+        if(itemDetails.getBase64Image().isEmpty() || itemDetails.getBase64Image() == null) {
+        	
+        }else {
+        	item.setImage(itemDetails.getBase64Image().getBytes()); // Convert file to byte[]
+        }
 
         return itemRepository.save(item);
     }

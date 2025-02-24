@@ -14,12 +14,16 @@ public class UserLocationsService {
 	
 	private LocationRepository locationRepository;
 	
+
+	
 	public UserLocationsService(LocationRepository locationRepository) {
 		this.locationRepository = locationRepository;
 	}
 
 	//saving new location 
 	public Location addLocation(Location locationDetails) {
+	
+		
 		return locationRepository.save(locationDetails);
 		
 	}

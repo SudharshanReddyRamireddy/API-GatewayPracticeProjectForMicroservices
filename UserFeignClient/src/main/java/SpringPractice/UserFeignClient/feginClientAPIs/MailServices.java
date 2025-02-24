@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import SpringPractice.UserFeignClient.DTOs.MailRequest_DTO;
 
 
-@FeignClient(name = "GMAILSERVICE")
+@FeignClient(name = "GMAIL-SERVICE")
 public interface MailServices {
 
 	@PostMapping("/Gmail/send")

@@ -1,21 +1,27 @@
 package SpringPractice.UserFeignClient.services;
-
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.thoughtworks.xstream.security.ForbiddenClassException;
+
 import SpringPractice.UserFeignClient.DTOs.MailRequest_DTO;
+import SpringPractice.UserFeignClient.UserAuthDetails.UserAuth;
 import SpringPractice.UserFeignClient.feginClientAPIs.MailServices;
 import SpringPractice.UserFeignClient.models.User;
 import SpringPractice.UserFeignClient.repositories.UserRepositoty;
 import jakarta.transaction.Transactional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
 	
 	@Autowired
 	private UserRepositoty userRepository;
@@ -23,6 +29,10 @@ public class UserService {
 	
 	@Autowired
 	private MailServices mailServices;
+	
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	
 	//check email id is exist or not 
@@ -122,5 +132,15 @@ public class UserService {
 		mailDetails.setMsgBody(bodyTecxt);
 		
 		mailServices.sentMail(mailDetails);
+	}
+
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		Optional<User> user = userRepository.findByEmailId(username);
+        return user.map(UserAuth::new)
+                     .orElseThrow(() -> new UsernameNotFoundException("USER NOT FOUND"));
+		
 	}
 }

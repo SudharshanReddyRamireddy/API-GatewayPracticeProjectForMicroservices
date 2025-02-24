@@ -55,5 +55,4 @@ public class OrderResponse_DTO {
 		public void setItemId(Long itemId) {
 			this.itemId = itemId;
 		}
-		
 }
