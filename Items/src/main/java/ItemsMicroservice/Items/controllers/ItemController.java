@@ -6,10 +6,13 @@ import ItemsMicroservice.Items.services.ItemService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -19,6 +22,7 @@ import java.util.List;
  * Controller for managing items in the system.
  */
 @RestController
+@Validated
 @RequestMapping("/items")
 @CrossOrigin(origins = "*")
 @Tag(name = "Item Controller", description = "APIs for managing items")
@@ -49,7 +53,7 @@ public class ItemController {
      */
     @Operation(summary = "Upload an item", description = "Saves an item with the provided details")
     @PostMapping("/item")
-    public ResponseEntity<String> uploadItem(@RequestBody ItemResponse itemDetails) {
+    public ResponseEntity<String> uploadItem(@Valid @RequestBody ItemResponse itemDetails) {
         try {
             Item savedItem = itemService.saveItem(itemDetails);
             return ResponseEntity.ok("Item uploaded successfully with ID: " + savedItem.getId());

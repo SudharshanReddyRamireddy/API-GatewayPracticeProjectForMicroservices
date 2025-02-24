@@ -16,6 +16,8 @@ import SpringPractice.UserFeignClient.models.User;
 import SpringPractice.UserFeignClient.services.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.NotFoundException;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -51,6 +53,24 @@ public class UserController {
     
     @Autowired
     private AuthenticationManager authenticationManager;
+    
+    
+    // method for confirm that user exist or not with user id
+    @GetMapping("/isUserExists/{userId}")
+    public ResponseEntity<Boolean> isUserExist(@PathVariable("userId") Long userId) throws BadRequestException{
+    	
+    	try {
+    		if(userService.isUserExists(userId)) {
+    			return ResponseEntity.status(HttpStatus.OK).body(userService.isUserExists(userId));
+    		}else {
+    			throw new NotFoundException("ERROR : USER NOT EXIST WITH ID : " + userId);
+    		}
+		} catch (Exception e) {
+			throw new BadRequestException("ERROR : " + e.getMessage());
+		}
+    }
+    
+    
     
     /**
      * Saves a new user.
@@ -135,36 +155,14 @@ public class UserController {
         }
     }
     
-    /**
-     * Saves an order for a specific user ID.
-     */
-    @PostMapping("/OrderOnUser/{userId}")
-    @Transactional
-    @Operation(summary = "Save order for user", description = "Creates an order for a specific user")
-    public ResponseEntity<OrderResponse_DTO> saveOrder(@RequestBody OrderResponse_DTO orderDetails, @PathVariable("userId") Long userId) throws BadRequestException {
-        logger.info("Saving order for user ID: {}", userId);
-        try {
-            if (userService.isUserExists(userId)) {
-                orderDetails.setId(null);
-                orderDetails.setUserId(userId);
-                OrderResponse_DTO order = orderFeginClientAPIs.createOrder(orderDetails);
-                userService.sendOrderPacedMail(userId, userId);
-                return ResponseEntity.status(HttpStatus.OK).body(order);
-            } else {
-                throw new BadRequestException("ERROR : USER NOT FOUND WITH GIVEN ID " + userId);
-            }
-        } catch (Exception e) {
-            logger.error("Error saving order for user ID {}: {}", userId, e.getMessage());
-            throw new BadRequestException("ERROR : " + e.getMessage());
-        }
-    }
+
     
     /**
      * Authenticates a user.
      */
     @PostMapping("/login")
     @Operation(summary = "User login", description = "Authenticates a user with provided credentials")
-    public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
         logger.info("User login attempt: {}", loginRequest.getUsername());
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())

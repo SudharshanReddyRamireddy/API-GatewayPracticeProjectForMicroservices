@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.apache.coyote.BadRequestException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import SpringPractice.UserFeignClient.models.Location;
@@ -12,20 +13,17 @@ import SpringPractice.UserFeignClient.repositories.LocationRepository;
 @Service
 public class UserLocationsService {
 	
+	
+	@Autowired
 	private LocationRepository locationRepository;
 	
 
 	
-	public UserLocationsService(LocationRepository locationRepository) {
-		this.locationRepository = locationRepository;
-	}
+
 
 	//saving new location 
 	public Location addLocation(Location locationDetails) {
-	
-		
 		return locationRepository.save(locationDetails);
-		
 	}
 	
 	

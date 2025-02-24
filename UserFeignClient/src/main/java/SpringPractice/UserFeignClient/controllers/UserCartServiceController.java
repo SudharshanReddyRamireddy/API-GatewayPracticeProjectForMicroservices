@@ -42,7 +42,7 @@ public class UserCartServiceController {
     ) throws BadRequestException {
         
         try {
-            System.out.println("111");
+            
             if (userServices.isUserExists(userId)) {
                 return ResponseEntity.status(HttpStatus.OK).body(cartServices.getCartByCartId(userId));
             } else {

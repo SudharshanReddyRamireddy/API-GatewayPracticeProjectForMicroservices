@@ -45,7 +45,7 @@ public interface Cart_WishListMicroservice {
 	
 	
 	@GetMapping("/Cart/wishList/{userId}")
-	public ResponseEntity<Wishlist_DTO> getWishList(@PathVariable("userId") Long userId);
+	public ResponseEntity<Wishlist_DTO>getWishList(@PathVariable("userId") Long userId);
 	
 	
 	@PutMapping("Cart/removeItem/{cartId}/{itemId}")

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import SpringPractice.OrderFeignClient.FeignClientAPIs.ItemMicroservice;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
+import SpringPractice.OrderFeignClient.FeignClientAPIs.UserMicroservice;
 import SpringPractice.OrderFeignClient.models.Order;
 import SpringPractice.OrderFeignClient.services.OrderService;
 
@@ -33,7 +35,8 @@ public class OrderController {
 	private OrderService orderService;
 	
 	@Autowired
-	private ItemMicroservice feignClientItemServices;
+	private UserMicroservice userMicroservice;
+	
 	
 	/**
 	 * Adds a new order.
@@ -44,18 +47,24 @@ public class OrderController {
 	 */
 	@Operation(summary = "Add new order", description = "Creates a new order if the item exists.")
 	@PostMapping("/order")
+	@Transactional
 	public ResponseEntity<Order> saveOrder(@RequestBody Order order) throws BadRequestException{
 		try {
-			Boolean isItemExist = feignClientItemServices.isItemExist(order.getItemId());
-			if(isItemExist) {
-				return ResponseEntity.status(HttpStatus.OK).body(orderService.saveOrder(order));
-			} else {
-				throw new BadRequestException("ERROR : INVALID ITEM : ITEM NOT FOUND ON GIVEN ITEM ID" );
-			}
+			//Boolean isItemExist = feignClientItemServices.isItemExist(order.getItemId());
+//			if(userMicroservice.isUserExist(order.getUserId()).getBody()) {
+//				return ResponseEntity.status(HttpStatus.OK).body(orderService.saveOrder(order));
+//			}else {
+//				throw new NotFoundException("ERROR : INVALID USER ID : USER ID NOT FOUND ON ID : " + order.getUserId() );
+//			}
+			
+			return ResponseEntity.status(HttpStatus.OK).body(orderService.saveOrder(order));
+			
 		} catch (Exception e) {
 			throw new BadRequestException("ERROR : " + e.getMessage());
 		}
 	}
+	
+	
 	
 	/**
 	 * Retrieves all orders for a given user ID.
