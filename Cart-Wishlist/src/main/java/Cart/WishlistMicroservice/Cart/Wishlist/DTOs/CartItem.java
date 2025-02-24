@@ -1,28 +1,21 @@
 package Cart.WishlistMicroservice.Cart.Wishlist.DTOs;
 
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Embeddable
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CartItem {
 	
 	private Long itemId;
 	
 	private Integer quentity;
 
-	public Long getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(Long itemId) {
-		this.itemId = itemId;
-	}
-
-	public Integer getQuentity() {
-		return quentity;
-	}
-
-	public void setQuentity(Integer quentity) {
-		this.quentity = quentity;
-	}
 
 }

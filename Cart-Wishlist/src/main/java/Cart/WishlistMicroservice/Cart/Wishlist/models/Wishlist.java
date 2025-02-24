@@ -3,9 +3,18 @@ package Cart.WishlistMicroservice.Cart.Wishlist.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.*;
 
 @Entity
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Wishlist")
 public class Wishlist {
 
@@ -13,22 +22,6 @@ public class Wishlist {
 	private Long wishListId;
 	
 	private Set<Long> itemsList;
-
-	public Long getWishListId() {
-		return wishListId;
-	}
-
-	public void setWishListId(Long wishListId) {
-		this.wishListId = wishListId;
-	}
-
-	public Set<Long> getItemsList() {
-		return itemsList;
-	}
-
-	public void setItemsList(Set<Long> itemsList) {
-		this.itemsList = itemsList;
-	}
 	
 	
 }

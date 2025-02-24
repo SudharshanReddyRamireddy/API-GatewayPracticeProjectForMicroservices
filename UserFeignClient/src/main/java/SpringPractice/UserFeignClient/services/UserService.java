@@ -7,11 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.thoughtworks.xstream.security.ForbiddenClassException;
+
 
 import SpringPractice.UserFeignClient.DTOs.MailRequest_DTO;
 import SpringPractice.UserFeignClient.UserAuthDetails.UserAuth;
@@ -143,4 +142,6 @@ public class UserService implements UserDetailsService{
                      .orElseThrow(() -> new UsernameNotFoundException("USER NOT FOUND"));
 		
 	}
+	
+	
 }

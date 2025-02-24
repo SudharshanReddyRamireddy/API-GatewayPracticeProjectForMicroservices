@@ -8,9 +8,17 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "Carts")
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Carts {
 	
 	@Id
@@ -23,33 +31,6 @@ public class Carts {
 	private List<CartItem> cartItems;
 
 
-	public Long getId() {
-		return id;
-	}
-
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-	public List<CartItem> getCartItems() {
-		return cartItems;
-	}
-
 	
-	public void setCartItems(List<CartItem> cartItems) {
-		this.cartItems = cartItems;
-	}
-
-
-	public Double getCartPrice() {
-		return cartPrice;
-	}
-
-
-	public void setCartPrice(Double cartPrice) {
-		this.cartPrice = cartPrice;
-	}
 	
 }
